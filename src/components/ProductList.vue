@@ -4,25 +4,32 @@
       v-for="(product, index) in productsList"
       :key="index"
       :product="product"
-      @add="handleAddToCart"
+      :quantity="getQuantity(product)"
+      @add="emit('add', product)"
+      @increase="emit('increase', product.id)"
+      @decrease="emit('decrease', product.id)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import ProductCard from './ProductCard.vue'
-import products from '../data/data.json'
-import type { Product } from '../types/Product'
+import ProductCard from "./ProductCard.vue"
+import products from "../data/data.json"
+import type { Product, CartItem } from "../types/product"
 
-// Define os produtos como um array tipado
 const productsList: Product[] = products
 
-// Emite o evento para o componente pai (App.vue)
+const props = defineProps<{ cart: CartItem[] }>()
+
 const emit = defineEmits<{
-  (e: 'add', product: Product): void
+  (e: "add", product: Product): void
+  (e: "increase", id: number): void
+  (e: "decrease", id: number): void
 }>()
 
-function handleAddToCart(product: Product) {
-  emit('add', product)
+function getQuantity(product: Product): number {
+  const item = props.cart.find(i => i.product.id === product.id)
+  return item ? item.quantity : 0
 }
+
 </script>
