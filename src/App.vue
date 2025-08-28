@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-100 p-6">
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
-      <!-- Lista de produtos -->
+      <!-- product list -->
       <section class="flex-1">
         <ProductList
           :cart="cart"
@@ -11,10 +11,17 @@
         />
       </section>
 
-      <!-- Carrinho lateral -->
+      <!-- cart -->
       <aside class="w-full lg:w-80">
-        <CartSidebar :items="cart" @remove="removeFromCart" />
+        <CartSidebar
+          :items="cart"
+          @remove="removeFromCart"
+          @confirm="confirmOrder"
+        />
       </aside>
+
+      <!-- order confirmation modal -->
+      <OrderModal v-if="isOrderConfirmed" :items="cart" @reset="resetOrder" />
     </div>
   </div>
 </template>
@@ -22,9 +29,11 @@
 <script setup lang="ts">
 import ProductList from "./components/ProductList.vue"
 import CartSidebar from "./components/CartSidebar.vue"
+import OrderModal from "./components/OrderModal.vue"
 import { ref } from "vue"
 import type { CartItem, Product } from "./types/product"
 
+// Cart functions
 const cart = ref<CartItem[]>([])
 
 function addToCart(product: Product) {
@@ -39,8 +48,6 @@ function addToCart(product: Product) {
 function increaseQuantity(id: number) {
   const item = cart.value.find((i) => i.product.id === id)
   if (item) item.quantity++
-  if (item) console.log(item.quantity)
-
 }
 
 function decreaseQuantity(id: number) {
@@ -56,5 +63,17 @@ function decreaseQuantity(id: number) {
 
 function removeFromCart(id: number) {
   cart.value = cart.value.filter((item) => item.product.id !== id)
+}
+
+// Order confirmation functions
+const isOrderConfirmed = ref(false)
+
+function confirmOrder() {
+  isOrderConfirmed.value = true
+}
+
+function resetOrder() {
+  cart.value = []
+  isOrderConfirmed.value = false
 }
 </script>

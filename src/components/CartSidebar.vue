@@ -17,7 +17,9 @@
           <p class="text-sm text-gray-600 flex gap-3">
             <span> {{ item.quantity }}x </span>
             <span> @${{ item.product.price.toFixed(2) }} </span>
-            <span> ${{ (item.product.price * item.quantity).toFixed(2) }} </span>
+            <span>
+              ${{ (item.product.price * item.quantity).toFixed(2) }}
+            </span>
           </p>
         </div>
         <button
@@ -32,6 +34,15 @@
     <div v-if="items.length > 0" class="mt-6 border-t pt-4">
       <p class="font-semibold">Order Total: ${{ total.toFixed(2) }}</p>
     </div>
+
+    <div v-if="items.length > 0" class="mt-6">
+      <button
+        @click="emit('confirm')"
+        class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition w-full"
+      >
+        Confirm Order
+      </button>
+    </div>
   </div>
 </template>
 
@@ -41,7 +52,10 @@ import type { CartItem } from "../types/product"
 
 const props = defineProps<{ items: CartItem[] }>()
 
-const emit = defineEmits<{ (e: "remove", id: number): void }>()
+const emit = defineEmits<{
+  (e: "remove", id: number): void
+  (e: "confirm"): void
+}>()
 
 function remove(id: number) {
   emit("remove", id)
