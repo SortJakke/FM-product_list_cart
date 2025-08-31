@@ -1,8 +1,9 @@
 <template>
-  <div class="min-h-screen bg-gray-100 p-6">
+  <div class="main-font min-h-screen bg-[var(--rose100)] p-6">
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
       <!-- product list -->
       <section class="flex-1">
+        <h1 class="text-4xl font-bold mb-8">Desserts</h1>
         <ProductList
           :cart="cart"
           @add="addToCart"
@@ -70,10 +71,32 @@ const isOrderConfirmed = ref(false)
 
 function confirmOrder() {
   isOrderConfirmed.value = true
+  document.body.style.overflow = "hidden"
 }
 
 function resetOrder() {
   cart.value = []
   isOrderConfirmed.value = false
+  document.body.style.overflow = "auto"  
 }
+
 </script>
+
+<style>
+:root {
+  --red: hsl(14, 86%, 42%);
+  --green: hsl(159, 69%, 38%);
+
+  --rose50: hsl(20, 50%, 98%);
+  --rose100: hsl(13, 31%, 94%);
+  --rose300: hsl(14, 25%, 72%);
+  --rose400: hsl(7, 20%, 60%);
+  --rose500: hsl(12, 20%, 44%);
+  --rose900: hsl(14, 65%, 9%);
+}
+
+.main-font {
+  font-family: "Red Hat Text", sans-serif;
+  color: hsl(14, 65%, 9%);
+}
+</style>

@@ -49,45 +49,112 @@ function handleIncrease() {
 function handleDecrease() {
   emit("decrease", props.product.id)
 }
-
 </script>
 
 <template>
-  <div
-    class="bg-white rounded-lg shadow-md p-4 flex flex-col items-center text-center"
-  >
-    <img
-      :src="selectedImage"
-      :alt="product.name"
-      class="w-32 h-32 object-contain mb-4"
-    />
-    <p class="text-gray-600">{{ product.category }}</p>
-    <h2 class="text-lg font-semibold mb-2">{{ product.name }}</h2>
-    <p class="text-gray-600 mb-2">${{ product.price.toFixed(2) }}</p>
-
-    <div v-if="quantity === 0">
-      <button
-        @click="handleAdd"
-        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+  <div class="flex flex-col gap-8">
+    <div class="relative">
+      <figure v-if="quantity === 0" class="w-full rounded-lg overflow-hidden">
+        <img :src="selectedImage" :alt="product.name" class="object-contain" />
+      </figure>
+      <figure
+        v-else
+        class="w-full rounded-lg overflow-hidden border-2 border-[var(--red)]"
       >
-        Add to Cart
-      </button>
+        <img :src="selectedImage" :alt="product.name" class="object-contain" />
+      </figure>
+      <div
+        class="absolute bottom-0 transform translate-y-1/2 left-1/2 -translate-x-1/2"
+      >
+        <div v-if="quantity === 0">
+          <button
+            @click="handleAdd"
+            class="cursor-pointer w-[155px] flex justify-between bg-[var(--rose50)] border border-[var(--rose500)] font-semibold px-4 py-2 rounded-3xl hover:bg-[var(--rose100)] transition"
+          >
+            <img src="../assets/icon-add-to-cart.svg" alt="" />Add to Cart
+          </button>
+        </div>
+
+        <div
+          v-else
+          class="w-[155px] flex justify-between items-center gap-2 bg-[var(--red)] border border-[var(--red)] text-[var(--rose50)] font-semibold px-4 py-2 rounded-3xl"
+        >
+          <button
+            @click="handleDecrease"
+            class="cursor-pointer w-[15px] h-[15px] flex items-center justify-center hover:text-[var(--red)] transition"
+          >
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 50 50"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="hover:fill-[var(--rose50)] transition"
+            >
+              <circle
+                cx="24"
+                cy="24"
+                r="22"
+                stroke="var(--rose50)"
+                stroke-width="5"
+              />
+              <line
+                x1="14"
+                y1="24"
+                x2="34"
+                y2="24"
+                stroke="currentColor"
+                stroke-width="5"
+              />
+            </svg>
+          </button>
+          <span class="font-semibold">{{ quantity }}</span>
+          <button
+            @click="handleIncrease"
+            class="cursor-pointer w-[15px] h-[15px] flex items-center justify-center hover:text-[var(--red)] transition"
+          >
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 50 50"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="hover:fill-[var(--rose50)] transition"
+            >
+              <circle
+                cx="24"
+                cy="24"
+                r="22"
+                stroke="var(--rose50)"
+                stroke-width="5"
+              />
+              <line
+                x1="24"
+                y1="14"
+                x2="24"
+                y2="34"
+                stroke="currentColor"
+                stroke-width="5"
+              />
+              <line
+                x1="14"
+                y1="24"
+                x2="34"
+                y2="24"
+                stroke="currentColor"
+                stroke-width="5"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
     </div>
-
-    <div v-else class="flex items-center gap-2">
-      <button
-        @click="handleDecrease"
-        class="bg-gray-300 px-2 py-1 rounded hover:bg-gray-400"
-      >
-        -
-      </button>
-      <span class="font-semibold">{{ quantity }}</span>
-      <button
-        @click="handleIncrease"
-        class="bg-gray-300 px-2 py-1 rounded hover:bg-gray-400"
-      >
-        +
-      </button>
+    <div class="flex flex-col gap-1">
+      <p class="text-[var(--rose500)]">{{ product.category }}</p>
+      <h2 class="text-lg font-semibold">{{ product.name }}</h2>
+      <p class="text-[var(--red)] font-semibold">
+        ${{ product.price.toFixed(2) }}
+      </p>
     </div>
   </div>
 </template>
