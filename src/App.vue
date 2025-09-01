@@ -24,6 +24,27 @@
       <!-- order confirmation modal -->
       <OrderModal v-if="isOrderConfirmed" :items="cart" @reset="resetOrder" />
     </div>
+    <div className="text-center my-4 mx-2 text-sm">
+      Challenge by
+      <a
+        className="text-[hsl(246,100%,66%)]"
+        href="https://www.frontendmentor.io?ref=challenge"
+        target="_blank"
+        rel="noopener"
+      >
+        Frontend Mentor
+      </a>
+      . Coded by
+      <a
+        className="text-[hsl(246,100%,66%)]"
+        href="https://github.com/SortJakke"
+        target="_blank"
+        rel="noopener"
+      >
+        Sortjakke
+      </a>
+      .
+    </div>
   </div>
 </template>
 
@@ -77,9 +98,8 @@ function confirmOrder() {
 function resetOrder() {
   cart.value = []
   isOrderConfirmed.value = false
-  document.body.style.overflow = "auto"  
+  document.body.style.overflow = "auto"
 }
-
 </script>
 
 <style>
